@@ -1,8 +1,22 @@
+// Initialize Lucide icons
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all Lucide icons
+    lucide.createIcons();
+    
+    // Initialize header scroll effect
+    initHeaderScroll();
+    
+    // Initialize scroll animations
+    initScrollAnimations();
+    
+    console.log('🎉 Landing Page DC Logística carregada com sucesso!');
+});
+
 // Smooth scroll to section
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
-        const offset = 80; // Header height
+        const offset = 80; // Altura do cabeçalho
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -14,48 +28,19 @@ function scrollToSection(sectionId) {
 }
 
 // Accordion functionality
-function initAccordion() {
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
+function toggleAccordion(headerElement) {
+    const accordionItem = headerElement.parentElement;
+    const isActive = accordionItem.classList.contains('active');
     
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const accordionItem = header.parentElement;
-            const isActive = accordionItem.classList.contains('active');
-            
-            // Close all accordion items
-            document.querySelectorAll('.accordion-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                accordionItem.classList.add('active');
-            }
-        });
+    // Fecha todos os itens
+    document.querySelectorAll('.accordion-item').forEach(item => {
+        item.classList.remove('active');
     });
-}
-
-// WhatsApp purchase function
-function comprarPlanner(type) {
-    const products = {
-        planner: {
-            name: 'Planner Logística 2026',
-            price: 'R$ 180'
-        },
-        kit: {
-            name: 'Kit Executivo (Planner + Garrafa Premium)',
-            price: 'R$ 247'
-        }
-    };
-
-    const product = products[type];
     
-    const message = `Olá! Tenho interesse no *${product.name}*%0A%0A` +
-                   `Valor: ${product.price}%0A%0A` +
-                   `Gostaria de mais informações sobre o produto e forma de pagamento.`;
-
-    // Open WhatsApp with pre-filled message
-    window.open(`https://wa.me/5511996733653?text=${message}`, '_blank');
+    // Abre o clicado se não estava ativo
+    if (!isActive) {
+        accordionItem.classList.add('active');
+    }
 }
 
 // Header scroll effect
@@ -64,16 +49,14 @@ function initHeaderScroll() {
     
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
-            header.style.background = 'rgba(10, 10, 10, 0.98)';
-            header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+            header.classList.add('scrolled');
         } else {
-            header.style.background = 'rgba(10, 10, 10, 0.95)';
-            header.style.boxShadow = 'none';
+            header.classList.remove('scrolled');
         }
     });
 }
 
-// Intersection Observer for animations
+// Intersection Observer para animações
 function initScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
@@ -89,8 +72,7 @@ function initScrollAnimations() {
         });
     }, observerOptions);
 
-    // Observe all benefit cards and pricing cards
-    const animatedElements = document.querySelectorAll('.benefit-card, .pricing-card, .fade-in, .fade-in-up, .fade-in-left, .fade-in-right');
+    const animatedElements = document.querySelectorAll('.benefit-card, .testimonial-card, .pricing-card, .fade-in, .fade-in-up, .fade-in-left, .fade-in-right');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
@@ -99,12 +81,3 @@ function initScrollAnimations() {
         observer.observe(el);
     });
 }
-
-// Initialize all functions when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initAccordion();
-    initHeaderScroll();
-    initScrollAnimations();
-    
-    console.log('🎉 Landing Page DC Logística carregada com sucesso!');
-});
